@@ -10,6 +10,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="งานช่าง">
+<script>/* ไอคอนและชื่อที่อัปโหลดในระบบติดตามงานช่าง (ตั้งค่าระบบ → ไอคอนแอป) */var ICON_KEY='tech',ICONS_URL='https://script.google.com/macros/s/AKfycbx4K0FnllMcPspbu_8X2vFxzTm-pDmTtqtMa0qHkhBEKXenR5KjQ1jqwnoIRxuY10B-5A/exec?icons=1';function applyIcon(o){if(!o||!o.url)return;var a=document.querySelector('link[rel=apple-touch-icon]');if(a)a.href=o.url;var f=document.querySelector('link[rel=icon]');if(f)f.href=o.url;var im=document.querySelectorAll('img[data-icon]');for(var i=0;i<im.length;i++)im[i].src=o.url;if(o.name){var m=document.querySelector('meta[name=apple-mobile-web-app-title]');if(m)m.content=o.name;document.title=o.name;}}var ICON_NOW=null;try{ICON_NOW=JSON.parse(localStorage.getItem('spwIcon_'+ICON_KEY)||'null');}catch(e){}applyIcon(ICON_NOW);if(window.fetch)fetch(ICONS_URL).then(function(r){return r.json();}).then(function(j){var o=j&&j[ICON_KEY];if(o&&o.url){ICON_NOW=o;try{localStorage.setItem('spwIcon_'+ICON_KEY,JSON.stringify(o));}catch(e){}applyIcon(o);}}).catch(function(){});</script>
 <meta name="theme-color" content="#185FA5">
 <style>
 :root{--blue:#185FA5;--navy:#142b43}
@@ -30,7 +31,7 @@ ol{margin:0;padding-left:22px}li{margin-bottom:8px}
 </style>
 </head>
 <body>
-<header><img src="apple-touch-icon.png" alt=""><div><h1>SPW งานช่าง</h1><p>ระบบติดตามงานช่าง · บริษัท อู่เงิน จำกัด</p></div></header>
+<header><img data-icon src="apple-touch-icon.png" alt=""><div><h1>SPW งานช่าง</h1><p>ระบบติดตามงานช่าง · บริษัท อู่เงิน จำกัด</p></div></header>
 <main id="main"></main>
 <script>
 var APP_URL='https://script.google.com/macros/s/AKfycbytSRku2ZSb507T_AyjqBhpUtxgjIIC7M_bxguBW_-W8he0VXJEpqpfrZrFIbXnRH2_DA/exec';
@@ -38,13 +39,13 @@ var main=document.getElementById('main');
 var standalone=window.navigator.standalone===true||(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches);
 if(standalone){
  // เปิดจากไอคอนหน้าจอโฮม → ไปที่ระบบทันที
- main.innerHTML='<div class="go"><img src="apple-touch-icon.png" alt=""><div>กำลังเปิดระบบติดตามงานช่าง…</div><a class="btn" href="'+APP_URL+'">แตะที่นี่ถ้ายังไม่เปิด</a></div>';
+ main.innerHTML='<div class="go"><img data-icon src="apple-touch-icon.png" alt=""><div>กำลังเปิดระบบติดตามงานช่าง…</div><a class="btn" href="'+APP_URL+'">แตะที่นี่ถ้ายังไม่เปิด</a></div>';
  location.replace(APP_URL);
 }else{
  // หน้าแนะนำ (เปิดใน Safari) · กดไอคอนบนหน้าจอโฮมจะเปิดแบบแอป แล้วเข้าระบบทันที
  main.innerHTML='<div class="card"><h2>📱 เพิ่มไอคอนไว้ที่หน้าจอโฮม</h2><ol><li>กดปุ่ม <span class="share">แชร์ ⬆</span> (สี่เหลี่ยมมีลูกศรขึ้น) ด้านล่างจอ</li><li>เลื่อนลง แล้วเลือก <b>"เพิ่มไปยังหน้าจอโฮม"</b></li><li>กด <b>"เพิ่ม"</b> · จะได้ไอคอน SPW งานช่าง</li><li>ลบไอคอนเก่าสีเทา "ร" ทิ้งได้เลย</li></ol><p class="muted">Android (Chrome): กด ⋮ มุมขวาบน → "เพิ่มลงในหน้าจอหลัก"</p><p class="muted">ถ้ามีสวิตช์ "เปิดเป็นแอปหน้าเว็บ" ให้เปิดไว้ (สีเขียว) · ครั้งแรกที่กดไอคอนอาจต้องลงชื่อ Google หนึ่งครั้ง</p></div>'+
  '<a class="btn" href="'+APP_URL+'">เปิดระบบติดตามงานช่าง</a>';
 }
-</script>
+applyIcon(ICON_NOW);</script>
 </body>
 </html>
