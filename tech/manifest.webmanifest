@@ -1,9 +1,9 @@
 {
   "name": "SPW งานช่าง",
   "short_name": "งานช่าง",
-  "start_url": "./#home",
+  "start_url": "./",
   "scope": "./",
-  "display": "browser",
+  "display": "standalone",
   "background_color": "#EEF2F7",
   "theme_color": "#185FA5",
   "icons": [

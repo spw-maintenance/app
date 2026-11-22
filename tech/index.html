@@ -7,6 +7,8 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="icon-192.png">
 <script>/* ระบบติดตามงานช่างต้องลงชื่อด้วย Google · ไอคอนนี้จึงเปิดใน Safari/Chrome ปกติ (ใช้บัญชีที่ลงชื่อไว้แล้ว) ไม่ใช่แบบแอปแยก. Android ใช้ manifest เพื่อได้ไอคอนสวย */if(!/iPhone|iPad|iPod/i.test(navigator.userAgent)){var l=document.createElement('link');l.rel='manifest';l.href='manifest.webmanifest';document.head.appendChild(l);}</script>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="งานช่าง">
 <meta name="theme-color" content="#185FA5">
 <style>
@@ -34,14 +36,13 @@ ol{margin:0;padding-left:22px}li{margin-bottom:8px}
 var APP_URL='https://script.google.com/macros/s/AKfycbytSRku2ZSb507T_AyjqBhpUtxgjIIC7M_bxguBW_-W8he0VXJEpqpfrZrFIbXnRH2_DA/exec';
 var main=document.getElementById('main');
 var standalone=window.navigator.standalone===true||(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches);
-if(/[#&]home\b/.test(location.hash||'')||standalone){
+if(standalone){
  // เปิดจากไอคอนหน้าจอโฮม → ไปที่ระบบทันที
  main.innerHTML='<div class="go"><img src="apple-touch-icon.png" alt=""><div>กำลังเปิดระบบติดตามงานช่าง…</div><a class="btn" href="'+APP_URL+'">แตะที่นี่ถ้ายังไม่เปิด</a></div>';
  location.replace(APP_URL);
 }else{
- // หน้าแนะนำ · ใส่ #home ในลิงก์ เพื่อให้ไอคอนที่เพิ่มจากหน้านี้เปิดระบบได้ทันที
- try{history.replaceState(null,'',location.pathname+location.search+'#home');}catch(e){}
- main.innerHTML='<div class="card"><h2>📱 เพิ่มไอคอนไว้ที่หน้าจอโฮม</h2><ol><li>กดปุ่ม <span class="share">แชร์ ⬆</span> (สี่เหลี่ยมมีลูกศรขึ้น) ด้านล่างจอ</li><li>เลื่อนลง แล้วเลือก <b>"เพิ่มไปยังหน้าจอโฮม"</b></li><li>กด <b>"เพิ่ม"</b> · จะได้ไอคอน SPW งานช่าง</li><li>ลบไอคอนเก่าสีเทา "ร" ทิ้งได้เลย</li></ol><p class="muted">Android (Chrome): กด ⋮ มุมขวาบน → "เพิ่มลงในหน้าจอหลัก"</p><p class="muted">ไอคอนจะเปิดระบบใน Safari ด้วยบัญชี Google ที่ลงชื่อไว้แล้ว ไม่ต้องลงชื่อใหม่</p></div>'+
+ // หน้าแนะนำ (เปิดใน Safari) · กดไอคอนบนหน้าจอโฮมจะเปิดแบบแอป แล้วเข้าระบบทันที
+ main.innerHTML='<div class="card"><h2>📱 เพิ่มไอคอนไว้ที่หน้าจอโฮม</h2><ol><li>กดปุ่ม <span class="share">แชร์ ⬆</span> (สี่เหลี่ยมมีลูกศรขึ้น) ด้านล่างจอ</li><li>เลื่อนลง แล้วเลือก <b>"เพิ่มไปยังหน้าจอโฮม"</b></li><li>กด <b>"เพิ่ม"</b> · จะได้ไอคอน SPW งานช่าง</li><li>ลบไอคอนเก่าสีเทา "ร" ทิ้งได้เลย</li></ol><p class="muted">Android (Chrome): กด ⋮ มุมขวาบน → "เพิ่มลงในหน้าจอหลัก"</p><p class="muted">ถ้ามีสวิตช์ "เปิดเป็นแอปหน้าเว็บ" ให้เปิดไว้ (สีเขียว) · ครั้งแรกที่กดไอคอนอาจต้องลงชื่อ Google หนึ่งครั้ง</p></div>'+
  '<a class="btn" href="'+APP_URL+'">เปิดระบบติดตามงานช่าง</a>';
 }
 </script>
