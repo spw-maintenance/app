@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>แจ้งซ่อม</title>
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<script>/* iPhone: no manifest, so the home-screen icon keeps this exact link (with the device code after #). Android: manifest for a proper app icon */if(!/iPhone|iPad|iPod/i.test(navigator.userAgent)){var l=document.createElement('link');l.rel='manifest';l.href='manifest.webmanifest';document.head.appendChild(l);}</script>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="แจ้งซ่อม">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1D9E75">
+<style>
+:root{--green:#1D9E75;--dark:#0F6E56;--navy:#142b43}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font:17px/1.6 -apple-system,system-ui,Tahoma,sans-serif;color:var(--navy);background:#EEF2F7}
+header{background:var(--navy);color:#fff;padding:calc(env(safe-area-inset-top) + 22px) 20px 22px;display:flex;gap:14px;align-items:center}
+header img{width:64px;height:64px;border-radius:15px}
+header h1{margin:0;font-size:22px}header p{margin:2px 0 0;color:#B5D4F4;font-size:14px}
+main{max-width:520px;margin:0 auto;padding:18px 16px 40px}
+.card{background:#fff;border:1px solid #D3D1C7;border-radius:16px;padding:18px;margin-bottom:14px}
+.card h2{margin:0 0 10px;font-size:18px}
+ol{margin:0;padding-left:22px}li{margin-bottom:8px}
+.btn{display:block;text-align:center;background:var(--dark);color:#fff;text-decoration:none;border-radius:12px;padding:14px;font-weight:700;font-size:17px}
+.muted{color:#5F5E5A;font-size:14px}
+.warn{background:#FAEEDA;color:#633806;border-radius:12px;padding:12px 14px;font-size:14px}
+.share{display:inline-block;border:1.5px solid #185FA5;color:#185FA5;border-radius:6px;padding:0 6px;font-weight:700}
+.go{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:14px;color:#5F5E5A}
+.go img{width:96px;height:96px;border-radius:22px}
+</style>
+</head>
+<body>
+<header><img src="apple-touch-icon.png" alt=""><div><h1>SPW แจ้งซ่อม</h1><p>แจ้งซ่อมถึงฝ่ายช่าง · ติดตามสถานะงานของฉัน</p></div></header>
+<main id="main"></main>
+<script>
+// แบบฟอร์มจริง (Google Apps Script) · ลิงก์ส่วนตัวของแต่ละเครื่องอยู่หลัง # จึงไม่ถูกส่งไปที่เว็บฝากนี้
+var FORM_URL='https://script.google.com/macros/s/AKfycbw0RwWHtNmjIZ6-hJg7Xyq3aU5lWao-6DuY1KCZ5S7M8d2I_GDii7vaUr9l606j1hQjIA/exec';
+var main=document.getElementById('main');
+function token(){var m=/[#&]d=([-a-f0-9]{64,80})/i.exec(location.hash||'');if(m){try{localStorage.setItem('spwRepairDevice',m[1]);}catch(e){}return m[1];}try{return localStorage.getItem('spwRepairDevice')||'';}catch(e){return '';}}
+function target(t){return FORM_URL+(t?'?d='+encodeURIComponent(t):'');}
+var t=token(),standalone=window.navigator.standalone===true||(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches);
+if(standalone){
+ main.innerHTML='<div class="go"><img src="apple-touch-icon.png" alt=""><div>กำลังเปิดแบบฟอร์มแจ้งซ่อม…</div><a class="btn" href="'+target(t)+'">แตะที่นี่ถ้ายังไม่เปิด</a></div>';
+ location.replace(target(t));
+}else{
+ main.innerHTML=(t?'':'<div class="card warn">ลิงก์นี้ยังไม่มีรหัสของเครื่อง · กรุณาเปิดจากปุ่ม "📱 ไอคอนหน้าจอโฮม" ในแบบฟอร์มแจ้งซ่อม ไอคอนจะได้เข้าระบบได้เลยไม่ต้องลงชื่อ</div>')+
+ '<div class="card"><h2>📱 เพิ่มไอคอนไว้ที่หน้าจอโฮม</h2><ol><li>กดปุ่ม <span class="share">แชร์ ⬆</span> (สี่เหลี่ยมมีลูกศรขึ้น) ด้านล่างจอ</li><li>เลื่อนลง แล้วเลือก <b>"เพิ่มไปยังหน้าจอโฮม"</b></li><li>กด <b>"เพิ่ม"</b> · จะได้ไอคอน SPW แจ้งซ่อม</li><li>ลบไอคอนเก่าสีเทา "แ" ทิ้งได้เลย</li></ol><p class="muted">Android (Chrome): กด ⋮ มุมขวาบน → "เพิ่มลงในหน้าจอหลัก" หรือ "ติดตั้งแอป"</p></div>'+
+ '<a class="btn" href="'+target(t)+'">เปิดแบบฟอร์มแจ้งซ่อม</a>'+
+ '<p class="muted" style="text-align:center;margin-top:14px">ลิงก์นี้เป็นของคุณคนเดียว ห้ามส่งต่อให้ผู้อื่น</p>';
+}
+</script>
+</body>
+</html>
