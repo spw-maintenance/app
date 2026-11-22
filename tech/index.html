@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>งานช่าง</title>
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<script>/* ระบบติดตามงานช่างต้องลงชื่อด้วย Google · ไอคอนนี้จึงเปิดใน Safari/Chrome ปกติ (ใช้บัญชีที่ลงชื่อไว้แล้ว) ไม่ใช่แบบแอปแยก. Android ใช้ manifest เพื่อได้ไอคอนสวย */if(!/iPhone|iPad|iPod/i.test(navigator.userAgent)){var l=document.createElement('link');l.rel='manifest';l.href='manifest.webmanifest';document.head.appendChild(l);}</script>
+<meta name="apple-mobile-web-app-title" content="งานช่าง">
+<meta name="theme-color" content="#185FA5">
+<style>
+:root{--blue:#185FA5;--navy:#142b43}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font:17px/1.6 -apple-system,system-ui,Tahoma,sans-serif;color:var(--navy);background:#EEF2F7}
+header{background:var(--blue);color:#fff;padding:calc(env(safe-area-inset-top) + 22px) 20px 22px;display:flex;gap:14px;align-items:center}
+header img{width:64px;height:64px;border-radius:15px;border:2px solid rgba(255,255,255,.35)}
+header h1{margin:0;font-size:22px}header p{margin:2px 0 0;color:#DCEBFA;font-size:14px}
+main{max-width:520px;margin:0 auto;padding:18px 16px 40px}
+.card{background:#fff;border:1px solid #D3D1C7;border-radius:16px;padding:18px;margin-bottom:14px}
+.card h2{margin:0 0 10px;font-size:18px}
+ol{margin:0;padding-left:22px}li{margin-bottom:8px}
+.btn{display:block;text-align:center;background:var(--blue);color:#fff;text-decoration:none;border-radius:12px;padding:14px;font-weight:700;font-size:17px}
+.muted{color:#5F5E5A;font-size:14px}
+.share{display:inline-block;border:1.5px solid #185FA5;color:#185FA5;border-radius:6px;padding:0 6px;font-weight:700}
+.go{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:14px;color:#5F5E5A}
+.go img{width:96px;height:96px;border-radius:22px}
+</style>
+</head>
+<body>
+<header><img src="apple-touch-icon.png" alt=""><div><h1>SPW งานช่าง</h1><p>ระบบติดตามงานช่าง · บริษัท อู่เงิน จำกัด</p></div></header>
+<main id="main"></main>
+<script>
+var APP_URL='https://script.google.com/macros/s/AKfycbytSRku2ZSb507T_AyjqBhpUtxgjIIC7M_bxguBW_-W8he0VXJEpqpfrZrFIbXnRH2_DA/exec';
+var main=document.getElementById('main');
+var standalone=window.navigator.standalone===true||(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches);
+if(/[#&]home\b/.test(location.hash||'')||standalone){
+ // เปิดจากไอคอนหน้าจอโฮม → ไปที่ระบบทันที
+ main.innerHTML='<div class="go"><img src="apple-touch-icon.png" alt=""><div>กำลังเปิดระบบติดตามงานช่าง…</div><a class="btn" href="'+APP_URL+'">แตะที่นี่ถ้ายังไม่เปิด</a></div>';
+ location.replace(APP_URL);
+}else{
+ // หน้าแนะนำ · ใส่ #home ในลิงก์ เพื่อให้ไอคอนที่เพิ่มจากหน้านี้เปิดระบบได้ทันที
+ try{history.replaceState(null,'',location.pathname+location.search+'#home');}catch(e){}
+ main.innerHTML='<div class="card"><h2>📱 เพิ่มไอคอนไว้ที่หน้าจอโฮม</h2><ol><li>กดปุ่ม <span class="share">แชร์ ⬆</span> (สี่เหลี่ยมมีลูกศรขึ้น) ด้านล่างจอ</li><li>เลื่อนลง แล้วเลือก <b>"เพิ่มไปยังหน้าจอโฮม"</b></li><li>กด <b>"เพิ่ม"</b> · จะได้ไอคอน SPW งานช่าง</li><li>ลบไอคอนเก่าสีเทา "ร" ทิ้งได้เลย</li></ol><p class="muted">Android (Chrome): กด ⋮ มุมขวาบน → "เพิ่มลงในหน้าจอหลัก"</p><p class="muted">ไอคอนจะเปิดระบบใน Safari ด้วยบัญชี Google ที่ลงชื่อไว้แล้ว ไม่ต้องลงชื่อใหม่</p></div>'+
+ '<a class="btn" href="'+APP_URL+'">เปิดระบบติดตามงานช่าง</a>';
+}
+</script>
+</body>
+</html>
