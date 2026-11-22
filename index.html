@@ -11,6 +11,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="แจ้งซ่อม">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<script>/* ไอคอนและชื่อที่อัปโหลดในระบบติดตามงานช่าง (ตั้งค่าระบบ → ไอคอนแอป) */var ICON_KEY='form',ICONS_URL='https://script.google.com/macros/s/AKfycbx4K0FnllMcPspbu_8X2vFxzTm-pDmTtqtMa0qHkhBEKXenR5KjQ1jqwnoIRxuY10B-5A/exec?icons=1';function applyIcon(o){if(!o||!o.url)return;var a=document.querySelector('link[rel=apple-touch-icon]');if(a)a.href=o.url;var f=document.querySelector('link[rel=icon]');if(f)f.href=o.url;var im=document.querySelectorAll('img[data-icon]');for(var i=0;i<im.length;i++)im[i].src=o.url;if(o.name){var m=document.querySelector('meta[name=apple-mobile-web-app-title]');if(m)m.content=o.name;document.title=o.name;}}var ICON_NOW=null;try{ICON_NOW=JSON.parse(localStorage.getItem('spwIcon_'+ICON_KEY)||'null');}catch(e){}applyIcon(ICON_NOW);if(window.fetch)fetch(ICONS_URL).then(function(r){return r.json();}).then(function(j){var o=j&&j[ICON_KEY];if(o&&o.url){ICON_NOW=o;try{localStorage.setItem('spwIcon_'+ICON_KEY,JSON.stringify(o));}catch(e){}applyIcon(o);}}).catch(function(){});</script>
 <meta name="theme-color" content="#1D9E75">
 <style>
 :root{--green:#1D9E75;--dark:#0F6E56;--navy:#142b43}
@@ -32,7 +33,7 @@ ol{margin:0;padding-left:22px}li{margin-bottom:8px}
 </style>
 </head>
 <body>
-<header><img src="apple-touch-icon.png" alt=""><div><h1>SPW แจ้งซ่อม</h1><p>แจ้งซ่อมถึงฝ่ายช่าง · ติดตามสถานะงานของฉัน</p></div></header>
+<header><img data-icon src="apple-touch-icon.png" alt=""><div><h1>SPW แจ้งซ่อม</h1><p>แจ้งซ่อมถึงฝ่ายช่าง · ติดตามสถานะงานของฉัน</p></div></header>
 <main id="main"></main>
 <script>
 // แบบฟอร์มจริง (Google Apps Script) · ลิงก์ส่วนตัวของแต่ละเครื่องอยู่หลัง # จึงไม่ถูกส่งไปที่เว็บฝากนี้
@@ -42,7 +43,7 @@ function token(){var m=/[#&]d=([-a-f0-9]{64,80})/i.exec(location.hash||'');if(m)
 function target(t){return FORM_URL+(t?'?d='+encodeURIComponent(t):'');}
 var t=token(),standalone=window.navigator.standalone===true||(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches);
 if(standalone){
- main.innerHTML='<div class="go"><img src="apple-touch-icon.png" alt=""><div>กำลังเปิดแบบฟอร์มแจ้งซ่อม…</div><a class="btn" href="'+target(t)+'">แตะที่นี่ถ้ายังไม่เปิด</a></div>';
+ main.innerHTML='<div class="go"><img data-icon src="apple-touch-icon.png" alt=""><div>กำลังเปิดแบบฟอร์มแจ้งซ่อม…</div><a class="btn" href="'+target(t)+'">แตะที่นี่ถ้ายังไม่เปิด</a></div>';
  location.replace(target(t));
 }else{
  main.innerHTML=(t?'':'<div class="card warn">ลิงก์นี้ยังไม่มีรหัสของเครื่อง · กรุณาเปิดจากปุ่ม "📱 ไอคอนหน้าจอโฮม" ในแบบฟอร์มแจ้งซ่อม ไอคอนจะได้เข้าระบบได้เลยไม่ต้องลงชื่อ</div>')+
@@ -50,6 +51,6 @@ if(standalone){
  '<a class="btn" href="'+target(t)+'">เปิดแบบฟอร์มแจ้งซ่อม</a>'+
  '<p class="muted" style="text-align:center;margin-top:14px">ลิงก์นี้เป็นของคุณคนเดียว ห้ามส่งต่อให้ผู้อื่น</p>';
 }
-</script>
+applyIcon(ICON_NOW);</script>
 </body>
 </html>
