@@ -14,7 +14,7 @@ window.phoneFit=function(){try{var sw=screen.width,iw=window.innerWidth,touch=(n
   if(bar){app.style.top=top+'px';app.style.height=((window.innerHeight-top)/k)+'px';}else{app.style.top='';app.style.height='calc((100vh - env(safe-area-inset-top)) / '+k+')';}}
  else{de.style.zoom=k===1?'':String(k);}}catch(e){}};
 /* ใช้ transform กับกรอบระบบ (ไม่ใช้ zoom) เพื่อให้ตำแหน่งที่แตะตรงกับช่องกรอกจริง */
-window.phoneFit();window.addEventListener('resize',window.phoneFit);</script><meta name="apple-mobile-web-app-capable" content="yes">
+window.phoneFit();(function(){var lw=window.innerWidth,ls=screen.width;window.addEventListener('resize',function(){if(window.innerWidth===lw&&screen.width===ls)return;var a=document.activeElement;if(a&&a.id==='app')return;lw=window.innerWidth;ls=screen.width;window.phoneFit();});})();</script><meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="แจ้งซ่อม">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
