@@ -30,6 +30,14 @@ ol{margin:0;padding-left:22px}li{margin-bottom:8px}
 .share{display:inline-block;border:1.5px solid #185FA5;color:#185FA5;border-radius:6px;padding:0 6px;font-weight:700}
 .go{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:14px;color:#5F5E5A}
 .go img{width:96px;height:96px;border-radius:22px}
+html,body{height:100%}
+body.full{background:#142b43;overflow:hidden}
+#app{position:fixed;left:0;right:0;bottom:0;top:env(safe-area-inset-top);width:100%;height:calc(100% - env(safe-area-inset-top));border:0;background:#EEF2F7}
+body.tab #app{top:48px;height:calc(100% - 48px)}
+#bar{position:fixed;top:0;left:0;right:0;height:48px;display:flex;align-items:center;gap:10px;padding:0 10px;background:#142b43;color:#fff;font-size:15px}
+#bar img{width:30px;height:30px;border-radius:8px}#bar b{flex:1}
+#bar button{border:0;border-radius:10px;background:#1D9E75;color:#fff;font:700 14px/1 inherit;font-family:inherit;padding:9px 12px}
+[hidden]{display:none!important}
 </style>
 </head>
 <body>
@@ -38,19 +46,38 @@ ol{margin:0;padding-left:22px}li{margin-bottom:8px}
 <script>
 // แบบฟอร์มจริง (Google Apps Script) · ลิงก์ส่วนตัวของแต่ละเครื่องอยู่หลัง # จึงไม่ถูกส่งไปที่เว็บฝากนี้
 var FORM_URL='https://script.google.com/macros/s/AKfycbw0RwWHtNmjIZ6-hJg7Xyq3aU5lWao-6DuY1KCZ5S7M8d2I_GDii7vaUr9l606j1hQjIA/exec';
-var main=document.getElementById('main');
-function token(){var m=/[#&]d=([-a-f0-9]{64,80})/i.exec(location.hash||'');if(m){try{localStorage.setItem('spwRepairDevice',m[1]);}catch(e){}return m[1];}try{return localStorage.getItem('spwRepairDevice')||'';}catch(e){return '';}}
-function target(t){return FORM_URL+(t?'?d='+encodeURIComponent(t):'');}
-var t=token(),standalone=window.navigator.standalone===true||(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches);
-if(standalone){
- main.innerHTML='<div class="go"><img data-icon src="apple-touch-icon.png" alt=""><div>กำลังเปิดแบบฟอร์มแจ้งซ่อม…</div><a class="btn" href="'+target(t)+'">แตะที่นี่ถ้ายังไม่เปิด</a></div>';
- location.replace(target(t));
-}else{
- main.innerHTML=(t?'':'<div class="card warn">ลิงก์นี้ยังไม่มีรหัสของเครื่อง · กรุณาเปิดจากปุ่ม "📱 ไอคอนหน้าจอโฮม" ในแบบฟอร์มแจ้งซ่อม ไอคอนจะได้เข้าระบบได้เลยไม่ต้องลงชื่อ</div>')+
- '<div class="card"><h2>📱 เพิ่มไอคอนไว้ที่หน้าจอโฮม</h2><ol><li>กดปุ่ม <span class="share">แชร์ ⬆</span> (สี่เหลี่ยมมีลูกศรขึ้น) ด้านล่างจอ</li><li>เลื่อนลง แล้วเลือก <b>"เพิ่มไปยังหน้าจอโฮม"</b></li><li>กด <b>"เพิ่ม"</b> · จะได้ไอคอน SPW แจ้งซ่อม</li><li>ลบไอคอนเก่าสีเทา "แ" ทิ้งได้เลย</li></ol><p class="muted">Android (Chrome): กด ⋮ มุมขวาบน → "เพิ่มลงในหน้าจอหลัก" หรือ "ติดตั้งแอป"</p></div>'+
- '<a class="btn" href="'+target(t)+'">เปิดแบบฟอร์มแจ้งซ่อม</a>'+
- '<p class="muted" style="text-align:center;margin-top:14px">ลิงก์นี้เป็นของคุณคนเดียว ห้ามส่งต่อให้ผู้อื่น</p>';
-}
+// ฝังแบบฟอร์มเต็มจอในหน้านี้ (ไม่มีแถบเตือนของ Google) · รหัสเครื่องเก็บในเครื่องนี้ · ลงชื่อผ่านลิงก์ยืนยันอีเมลของ SPW
+var main=document.getElementById('main'),KEY='spwRepairDevice',RET='form';
+var ID_URL='https://script.google.com/macros/s/AKfycbxurQbqrGyq36ZoE_xEPQ_vCzM67nfNAAeg-GdMZaYJpWWjYQKmr5rUWZOD_Ivz-11wQA/exec?';
+function q(n){var m=new RegExp('[?&]'+n+'=([^&#]+)').exec(location.search);return m?decodeURIComponent(m[1]):'';}
+function token(){var m=/[#&]d=([-a-f0-9]{64,80})/i.exec(location.hash||'');if(m){try{localStorage.setItem(KEY,m[1]);}catch(e){}return m[1];}try{return localStorage.getItem(KEY)||'';}catch(e){return '';}}
+var tok=token(),tk=q('t'),open=q('open'),standalone=window.navigator.standalone===true||(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches);
+function gOrigin(ev){var h='';try{h=new URL(ev.origin).hostname;}catch(e){}return /(^|\.)googleusercontent\.com$|(^|\.)script\.google\.com$/.test(h);}
+var esc=function(s){return String(s||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+function showLogin(url,msg){try{localStorage.removeItem(KEY);}catch(e){}var f=document.getElementById('app');if(f)f.remove();var bb=document.getElementById('bar');if(bb)bb.remove();document.body.className='';
+ document.body.insertAdjacentHTML('afterbegin','<header><img data-icon src="'+((ICON_NOW&&ICON_NOW.url)||'apple-touch-icon.png')+'" alt=""><div><h1>SPW แจ้งซ่อม</h1><p>ลงชื่อเข้าใช้ครั้งแรกบนเครื่องนี้</p></div></header><main><div class="card" style="text-align:center">'+(msg?'<p style="background:#FCEBEB;color:#791F1F;border-radius:10px;padding:10px 12px;text-align:left">'+esc(msg)+'</p>':'')+'<h2>ลงชื่อเข้าใช้เพื่อแจ้งซ่อม</h2><p class="muted">ใช้บัญชี Google ที่แจ้งชื่อไว้กับฝ่ายช่าง · ลงชื่อครั้งเดียวต่อเครื่อง</p><a class="btn" href="'+esc(url)+'">ลงชื่อเข้าใช้ด้วย Google</a></div></main>');}
+window.addEventListener('message',function(ev){if(!gOrigin(ev))return;var d=ev.data||{};
+ if(typeof d.spwFormToken==='string'){try{if(d.spwFormToken)localStorage.setItem(KEY,d.spwFormToken);else localStorage.removeItem(KEY);}catch(e){}}
+ if(typeof d.spwFormLogin==='string'&&d.spwFormLogin.indexOf(ID_URL)===0&&document.getElementById('app'))showLogin(d.spwFormLogin,d.msg);});
+/* ปุ่มติดตั้งแอปในหน้า (Android Chrome) */
+var installEvt=null,isAndroid=/Android/i.test(navigator.userAgent);
+if('serviceWorker' in navigator)try{navigator.serviceWorker.register('sw.js',{scope:'./index.html'}).catch(function(){});}catch(e){}
+function installBtns(){var bs=document.querySelectorAll('[data-install]');for(var i=0;i<bs.length;i++)bs[i].hidden=!installEvt;var hs=document.querySelectorAll('[data-install-hint]');for(var j=0;j<hs.length;j++)hs[j].hidden=!!installEvt||!isAndroid;}
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();installEvt=e;installBtns();});
+window.addEventListener('appinstalled',function(){installEvt=null;installBtns();var m=document.getElementById('instmsg');if(m)m.hidden=false;});
+document.addEventListener('click',function(ev){var b=ev.target.closest&&ev.target.closest('[data-install]');if(!b||!installEvt)return;ev.preventDefault();installEvt.prompt();installEvt.userChoice.then(function(){installEvt=null;installBtns();});});
+function openApp(){var src=FORM_URL+'?ret='+RET+(tk?'&t='+encodeURIComponent(tk):(/^[-a-f0-9]{64,80}$/i.test(tok)?'&d='+encodeURIComponent(tok):''));
+ document.body.className='full'+(standalone?'':' tab');document.querySelector('header').remove();main.remove();
+ if(!standalone)document.body.insertAdjacentHTML('afterbegin','<div id="bar"><img data-icon src="'+((ICON_NOW&&ICON_NOW.url)||'apple-touch-icon.png')+'" alt=""><b>SPW แจ้งซ่อม</b><button type="button" data-install hidden>📲 ติดตั้งแอป</button></div>');
+ var f=document.createElement('iframe');f.id='app';f.src=src;f.allow='camera; microphone; clipboard-read; clipboard-write; fullscreen';f.title='แจ้งซ่อมถึงฝ่ายช่าง';document.body.appendChild(f);
+ if(tk)try{history.replaceState(null,'',location.pathname+(standalone?'':'?open=1'));}catch(e){}installBtns();}
+if(standalone||tk||open){openApp();}
+else{main.innerHTML='<div id="instmsg" class="card" hidden style="background:#E1F5EE;border-color:#9FE1CB">✓ ติดตั้งแล้ว · ดูไอคอน "แจ้งซ่อม" ที่หน้าจอหลัก (หรือปัดขึ้นในหน้ารวมแอป)</div>'+
+ '<a class="btn" href="#" data-install hidden style="margin-bottom:14px">📲 ติดตั้งแอปแจ้งซ่อม</a>'+
+ '<div class="card" data-install-hint hidden><h2>📲 Android</h2><p style="margin:0">กด <b>⋮</b> มุมขวาบนของ Chrome → <b>"ติดตั้งและสร้างทางลัด"</b> → <b>"ติดตั้ง"</b></p><p class="muted">ถ้าไม่เห็นแถบด้านบน ให้เลื่อนหน้าลงเล็กน้อย</p></div>'+
+ '<div class="card"><h2>📱 iPhone</h2><ol><li>กดปุ่ม <span class="share">แชร์ ⬆</span> ด้านล่างจอ (ต้องเปิดใน Safari)</li><li>เลื่อนลง แล้วเลือก <b>"เพิ่มไปยังหน้าจอโฮม"</b></li><li>เปิดสวิตช์ <b>"เปิดเป็นแอปหน้าเว็บ"</b> ไว้ (สีเขียว) แล้วกด <b>"เพิ่ม"</b></li></ol><p class="muted">ครั้งแรกที่เปิดจะให้ลงชื่อด้วย Gmail ที่แจ้งไว้กับฝ่ายช่าง หนึ่งครั้งต่อเครื่อง</p></div>'+
+ '<a class="btn" href="?open=1">เปิดแบบฟอร์มในเบราว์เซอร์</a>'+
+ '<p class="muted" style="text-align:center;margin-top:14px">ส่งลิงก์หรือ QR นี้ให้คนอื่นได้ · แต่ละคนลงชื่อด้วย Gmail ของตัวเอง</p>';installBtns();}
 applyIcon(ICON_NOW);</script>
 </body>
 </html>
