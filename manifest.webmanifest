@@ -1,8 +1,9 @@
 {
+  "id": "./",
   "name": "SPW แจ้งซ่อม",
   "short_name": "แจ้งซ่อม",
-  "start_url": "./",
-  "scope": "./",
+  "start_url": "./index.html",
+  "scope": "./index.html",
   "display": "standalone",
   "background_color": "#EEF2F7",
   "theme_color": "#1D9E75",
