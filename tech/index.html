@@ -8,7 +8,13 @@
 <link rel="icon" type="image/png" href="icon-192.png">
 <script>if(!/iPhone|iPad|iPod/i.test(navigator.userAgent)){var l=document.createElement('link');l.rel='manifest';l.href='manifest.webmanifest';document.head.appendChild(l);}</script>
 <script>/* มือถือที่ Chrome เปิด "เว็บไซต์แบบเดสก์ท็อป" ค้างไว้: ย่อขยายหน้าให้กว้างเท่าจอมือถือ ฟอร์มจะได้เป็นแบบมือถือ ตัวใหญ่ */
-(function(){function fit(){try{var sw=screen.width,iw=window.innerWidth,touch=(navigator.maxTouchPoints||0)>0;var k=(touch&&sw>0&&sw<820&&iw>sw*1.25)?iw/sw:1;document.documentElement.style.zoom=k===1?'':String(k);document.documentElement.dataset.phoneFit=k===1?'':'1';}catch(e){}}fit();window.addEventListener('resize',fit);})();</script><meta name="apple-mobile-web-app-capable" content="yes">
+window.phoneFit=function(){try{var sw=screen.width,iw=window.innerWidth,touch=(navigator.maxTouchPoints||0)>0;var k=(touch&&sw>0&&sw<820&&iw>sw*1.25)?iw/sw:1,de=document.documentElement,app=document.getElementById('app'),bar=document.getElementById('bar');de.dataset.phoneFit=k===1?'':'1';
+ if(app){de.style.zoom='';if(bar)bar.style.zoom=k===1?'':String(k);if(k===1){app.style.width=app.style.height=app.style.transform=app.style.transformOrigin=app.style.top='';return;}
+  var top=bar?48*k:0;app.style.transformOrigin='0 0';app.style.transform='scale('+k+')';app.style.width=sw+'px';
+  if(bar){app.style.top=top+'px';app.style.height=((window.innerHeight-top)/k)+'px';}else{app.style.top='';app.style.height='calc((100vh - env(safe-area-inset-top)) / '+k+')';}}
+ else{de.style.zoom=k===1?'':String(k);}}catch(e){}};
+/* ใช้ transform กับกรอบระบบ (ไม่ใช้ zoom) เพื่อให้ตำแหน่งที่แตะตรงกับช่องกรอกจริง */
+window.phoneFit();window.addEventListener('resize',window.phoneFit);</script><meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="งานช่าง">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -49,7 +55,7 @@ var t=q('t'),open=q('open'),tok='';try{tok=localStorage.getItem(KEY)||'';}catch(
 var standalone=window.navigator.standalone===true||(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches);
 window.addEventListener('message',function(ev){var h='';try{h=new URL(ev.origin).hostname;}catch(e){}if(!/(^|\.)googleusercontent\.com$|(^|\.)script\.google\.com$/.test(h))return;var d=ev.data;if(d&&typeof d.spwTechToken==='string'){try{if(d.spwTechToken)localStorage.setItem(KEY,d.spwTechToken);else localStorage.removeItem(KEY);}catch(e){}}});
 var ID_URL='https://script.google.com/macros/s/AKfycbxurQbqrGyq36ZoE_xEPQ_vCzM67nfNAAeg-GdMZaYJpWWjYQKmr5rUWZOD_Ivz-11wQA/exec?';
-function showLogin(url,msg){try{localStorage.removeItem(KEY);}catch(e){}var f=document.getElementById('app');if(f)f.remove();var bb=document.getElementById('bar');if(bb)bb.remove();document.body.className='';
+function showLogin(url,msg){try{localStorage.removeItem(KEY);}catch(e){}var f=document.getElementById('app');if(f)f.remove();var bb=document.getElementById('bar');if(bb)bb.remove();document.body.className='';window.phoneFit&&setTimeout(window.phoneFit,0);
  var esc=function(s){return String(s||'').replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
  document.body.insertAdjacentHTML('afterbegin','<header><img data-icon src="'+((ICON_NOW&&ICON_NOW.url)||'apple-touch-icon.png')+'" alt=""><div><h1>SPW งานช่าง</h1><p>ลงชื่อเข้าใช้ครั้งแรกบนเครื่องนี้</p></div></header><main><div class="card" style="text-align:center">'+(msg?'<p style="background:#FCEBEB;color:#791F1F;border-radius:10px;padding:10px 12px;text-align:left">'+esc(msg)+'</p>':'')+'<h2>ลงชื่อเข้าใช้ระบบติดตามงานช่าง</h2><p class="muted">ใช้บัญชี Google ที่ผู้ดูแลระบบเพิ่มไว้ · ลงชื่อครั้งเดียวต่อเครื่อง</p><a class="btn" href="'+esc(url)+'">ลงชื่อเข้าใช้ด้วย Google</a></div></main>');}
 window.addEventListener('message',function(ev){var h='';try{h=new URL(ev.origin).hostname;}catch(e){}if(!/(^|\.)googleusercontent\.com$|(^|\.)script\.google\.com$/.test(h))return;var d=ev.data;if(d&&typeof d.spwTechLogin==='string'&&d.spwTechLogin.indexOf(ID_URL)===0)showLogin(d.spwTechLogin,d.msg);});/* ปุ่มติดตั้งแอปในหน้า (Android Chrome) · ไม่ต้องหาเมนู ⋮ */
@@ -62,7 +68,7 @@ document.addEventListener('click',function(ev){var b=ev.target.closest&&ev.targe
 function openApp(){var src=APP_URL+'?ret='+RET+(t?'&t='+encodeURIComponent(t):(/^[-a-f0-9]{64,80}$/i.test(tok)?'&d='+encodeURIComponent(tok):''));
  document.body.className='full'+(standalone?'':' tab');document.getElementById('hd').remove();document.getElementById('main').remove();
  if(!standalone)document.body.insertAdjacentHTML('afterbegin','<div id="bar"><img data-icon src="'+((ICON_NOW&&ICON_NOW.url)||'apple-touch-icon.png')+'" alt=""><b>SPW งานช่าง</b><button type="button" data-install hidden>📲 ติดตั้งแอป</button></div>');
- var f=document.createElement('iframe');f.id='app';f.src=src;f.allow='camera; microphone; clipboard-read; clipboard-write; fullscreen';f.title='ระบบติดตามงานช่าง';document.body.appendChild(f);
+ var f=document.createElement('iframe');f.id='app';f.src=src;f.allow='camera; microphone; clipboard-read; clipboard-write; fullscreen';f.title='ระบบติดตามงานช่าง';document.body.appendChild(f);window.phoneFit&&window.phoneFit();
  if(t)try{history.replaceState(null,'',location.pathname+(standalone?'':'?open=1'));}catch(e){}installBtns();}
 if(standalone||t||open){openApp();}
 else{document.getElementById('main').innerHTML='<div id="instmsg" class="card" hidden style="background:#E1F5EE;border-color:#9FE1CB">✓ ติดตั้งแล้ว · ดูไอคอน "งานช่าง" ที่หน้าจอหลัก (หรือปัดขึ้นในหน้ารวมแอป)</div>'+
