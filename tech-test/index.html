@@ -7,7 +7,8 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="icon-192.png">
 <script>if(!/iPhone|iPad|iPod/i.test(navigator.userAgent)){var l=document.createElement('link');l.rel='manifest';l.href='manifest.webmanifest';document.head.appendChild(l);}</script>
-<meta name="apple-mobile-web-app-capable" content="yes">
+<script>/* มือถือที่ Chrome เปิด "เว็บไซต์แบบเดสก์ท็อป" ค้างไว้: ย่อขยายหน้าให้กว้างเท่าจอมือถือ ฟอร์มจะได้เป็นแบบมือถือ ตัวใหญ่ */
+(function(){function fit(){try{var sw=screen.width,iw=window.innerWidth,touch=(navigator.maxTouchPoints||0)>0;var k=(touch&&sw>0&&sw<820&&iw>sw*1.25)?iw/sw:1;document.documentElement.style.zoom=k===1?'':String(k);document.documentElement.dataset.phoneFit=k===1?'':'1';}catch(e){}}fit();window.addEventListener('resize',fit);})();</script><meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="งานช่าง (ทดสอบ)">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
