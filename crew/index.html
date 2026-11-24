@@ -53,8 +53,13 @@ if(standalone&&t){
  var ios='<div class="card"><h2>📱 เพิ่มไอคอนไว้ที่หน้าจอโฮม (ทำครั้งเดียว)</h2><ol><li>กดปุ่ม <span class="share">แชร์ ⬆</span> ด้านล่างจอ (ต้องเปิดใน Safari)</li><li>เลื่อนลง แล้วเลือก <b>"เพิ่มไปยังหน้าจอโฮม"</b></li><li>ถ้ามีสวิตช์ <b>"เปิดเป็นแอปหน้าเว็บ"</b> ให้เปิดไว้ (สีเขียว)</li><li>กด <b>"เพิ่ม"</b> · จะได้ไอคอนสีม่วง "ส่งงาน"</li></ol></div>';
  var android='<div class="card"><h2>📱 ติดตั้งไอคอนไว้ที่หน้าจอ (ทำครั้งเดียว)</h2><button type="button" class="btn" data-install hidden style="width:100%;border:0;margin-bottom:10px">📲 ติดตั้งแอปส่งงาน</button><ol data-install-hint><li>กด <b>⋮</b> มุมขวาบนของ Chrome</li><li>เลือก <b>"เพิ่มลงในหน้าจอหลัก"</b> หรือ <b>"ติดตั้งแอป"</b></li><li>กด <b>"เพิ่ม" / "ติดตั้ง"</b> · จะได้ไอคอนสีม่วง "ส่งงาน"</li></ol><p id="instmsg" class="muted" hidden>✓ ติดตั้งแล้ว · ครั้งต่อไปกดไอคอน "ส่งงาน" ที่หน้าจอได้เลย</p></div>';
  var inapp='<div class="card warn"><b>เปิดอยู่ในหน้าต่างของ '+(inLine?'LINE':'แอปแชท')+'</b><br>กด <b>⋮</b> (หรือ <b>↗</b>) มุมขวาบน แล้วเลือก <b>"เปิดในเบราว์เซอร์"</b> / <b>"เปิดใน '+(isIOS?'Safari':'Chrome')+'"</b> ก่อน แล้วค่อยเพิ่มไอคอน</div>';
+ // Android ที่ไม่ใช่ Chrome (เบราว์เซอร์ที่มากับเครื่อง เช่น Mi / OPPO / vivo / Samsung) มักไม่มีเมนูเพิ่มไอคอน → ปุ่มเปิดใน Chrome (intent)
+ var otherBrowser=isAndroid&&!inApp&&(!/Chrome\/\d/.test(ua)||/SamsungBrowser|MiuiBrowser|XiaoMi|HeyTapBrowser|OppoBrowser|VivoBrowser|HuaweiBrowser|HONORBrowser|UCBrowser|OPR\/|Opera|EdgA|YaBrowser|Firefox|DuckDuckGo|PHX\/|Quark|Puffin|; wv\)/i.test(ua));
+ var chromeUrl='intent://'+location.host+location.pathname+(location.search||'')+(location.hash||'')+'#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url='+encodeURIComponent('https://play.google.com/store/apps/details?id=com.android.chrome')+';end';
+ var chromeCard='<div class="card warn"><b>เบราว์เซอร์นี้ติดตั้งไอคอนไม่ได้</b><br>กดปุ่มด้านล่างเพื่อเปิดหน้านี้ใน <b>Chrome</b> แล้วค่อยติดตั้งไอคอน</div><a class="btn" id="openchrome" href="'+chromeUrl+'" style="margin-bottom:14px">🌐 เปิดใน Chrome</a>';
  main.innerHTML=(t?'':'<div class="card warn">ลิงก์นี้ยังไม่มีรหัสของคุณ · กรุณาสแกน QR ที่หัวหน้าให้ด้วยกล้องมือถือ</div>')+
- (inApp?inapp:'')+(isAndroid?android:isIOS?ios:ios+android)+
+ (inApp?inapp:'')+(otherBrowser?chromeCard:'')+(isAndroid?android:isIOS?ios:ios+android)+
+ (isAndroid&&!otherBrowser&&!inApp?'<p class="muted" style="text-align:center;margin:-4px 0 14px">ไม่เจอเมนู "เพิ่มลงในหน้าจอหลัก"? <a href="'+chromeUrl+'">เปิดหน้านี้ใน Chrome</a></p>':'')+
  (t?'<a class="btn" href="'+target(t)+'">เปิดหน้าส่งงานเลย</a>':'')+
  '<p class="muted" style="text-align:center;margin-top:14px">ลิงก์นี้เป็นของคุณคนเดียว ห้ามส่งต่อให้ผู้อื่น</p>';
  // ปุ่มติดตั้งแอป (Android Chrome) · ไม่ต้องหาเมนู ⋮
