@@ -61,6 +61,8 @@ if(standalone&&t){
  main.innerHTML=(t?'':'<div class="card warn">ลิงก์นี้ยังไม่มีรหัสของคุณ · กรุณาสแกน QR ที่หัวหน้าให้ด้วยกล้องมือถือ</div>')+
  (inApp?inapp:'')+(otherBrowser?chromeCard:'')+(isAndroid?android:isIOS?ios:ios+android)+
  (isAndroid&&!otherBrowser&&!inApp?'<p class="muted" style="text-align:center;margin:-4px 0 14px">ไม่เจอเมนู "เพิ่มลงในหน้าจอหลัก"? <a href="'+chromeUrl+'">เปิดหน้านี้ใน Chrome</a></p>':'')+
+ // มือถือ Android ที่ติดตั้งไอคอนเว็บไม่ได้ (เช่น Android Go): โหลดแอป "ส่งงาน" (APK) แทน · ต้องเปิดลิงก์ส่วนตัวใน Chrome ก่อน 1 ครั้ง
+ (isAndroid&&!inApp?'<div class="card"><h2>📥 หรือโหลดแอป "ส่งงาน"</h2><p class="muted" style="margin:0 0 10px">สำหรับมือถือที่ไม่มีเมนูเพิ่มไอคอน · ใช้ได้ Android 7 ขึ้นไป</p><a class="btn" id="getapk" href="spw-songngan.apk" download="SPW-songngan.apk">📥 โหลดแอปส่งงาน (Android)</a><ol class="muted" style="margin-top:10px"><li>กดโหลด แล้วกด <b>เปิด</b> ไฟล์ที่โหลดเสร็จ</li><li>ถ้าขึ้น "ไม่อนุญาตจากแหล่งนี้" กด <b>การตั้งค่า</b> → เปิด <b>อนุญาตจากแหล่งนี้</b> → ย้อนกลับ</li><li>กด <b>ติดตั้ง</b> · จะได้ไอคอนกล้องม่วง "ส่งงาน" บนหน้าจอ</li></ol></div>':'')+
  (t?'<a class="btn" href="'+target(t)+'">เปิดหน้าส่งงานเลย</a>':'')+
  '<p class="muted" style="text-align:center;margin-top:14px">ลิงก์นี้เป็นของคุณคนเดียว ห้ามส่งต่อให้ผู้อื่น</p>';
  // ปุ่มติดตั้งแอป (Android Chrome) · ไม่ต้องหาเมนู ⋮
